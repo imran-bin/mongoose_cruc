@@ -24,7 +24,30 @@ router.get('/',async(req,res)=>{
 
 // get a  todo by id
 
-router.get('/:id',(req,res)=>{
+router.get('/:id',async(req,res)=>{
+
+   try{
+      const result= await Todo.find({_id:req.params.id})
+      if(result.length==0){
+        res.status(500).json({
+             
+            error:"data does not exist"
+           })
+      }
+      else{
+        res.status(200).json({
+            data:result,
+            message:"success"
+           })
+      }
+
+      
+   }
+   catch(err){
+       res.status(500).json({
+        error: "server side error"
+       })
+   }
     
 })
 // Post todo
@@ -90,7 +113,20 @@ router.put('/:id',async(req,res)=>{
 
 
 // Delete todo
-router.delete('/:id',(req,res)=>{
+router.delete('/:id',async(req,res)=>{
+  try{
+    await Todo.deleteOne({_id:req.params.id})
+    res.status(200).json({
+        message:"successfully delete"
+    })
+  }
+  catch(err){
+    res.status(500).json({
+        error:"server side error"
+    })
+  }
+
+
     
 })
 
