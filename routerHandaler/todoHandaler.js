@@ -34,7 +34,16 @@ router.get('/js',async(req,res)=>{
         data
     })
 })
+// Query helper mthod use
 
+router.get('/language', async(req,res)=>{
+    const data = await Todo.find().byLnguage("learn")
+    res.status(200).json({
+        data,
+        message:"language"
+
+    })
+})
 // Post multiple todo
 router.post('/all',async (req,res)=>{
     try{
