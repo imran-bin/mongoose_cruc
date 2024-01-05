@@ -4,6 +4,10 @@ const todoSchema = require("../schemas/todoSchema")
 const  router  = express.Router()
 
 const Todo = new mongoose.model("Todo",todoSchema)
+
+
+
+
 // Get all todos
 router.get('/',async(req,res)=>{
 
@@ -22,12 +26,33 @@ router.get('/',async(req,res)=>{
 
 })
 
+// Post multiple todo
+router.post('/all',async (req,res)=>{
+    try{
+       await Todo.insertMany(req.body) 
+       res.status(200).json({
+           message:"multiple data save successfully"
+       })
+    }
+    catch(err){
+
+       res.status(500).json({
+           error:"server side error"
+       })
+
+    }
+    
+})
+
+
+
+
 // get a  todo by id
 
 router.get('/:id',async(req,res)=>{
 
    try{
-      const result= await Todo.find({_id:req.params.id})
+      const result= await Todo.findById({_id:req.params.id})
       if(result.length==0){
         res.status(500).json({
              
@@ -50,11 +75,13 @@ router.get('/:id',async(req,res)=>{
    }
     
 })
+
+
 // Post todo
 router.post('/',async(req,res)=>{
      const newTodo =new Todo(req.body)
      try{
-        const result = await newTodo.save()
+        await newTodo.save()
         res.status(200).json({
             message:"data save "
         })
@@ -67,24 +94,17 @@ router.post('/',async(req,res)=>{
      }
 })
 
-// Post multiple todo
-router.post('/all',async (req,res)=>{
-     try{
-        await Todo.insertMany(req.body) 
-        res.status(200).json({
-            message:"multiple data save successfully"
-        })
-     }
-     catch(err){
 
-        res.status(500).json({
-            error:"server side error"
-        })
+router.get('/active',async(req,res)=>{
 
-     }
-     
+    const data = await Todo.findActive()
+      res.status(200).json({
+        data:data,
+     }) 
+    
 })
 // Put todo
+
 
 
 router.put('/:id',async(req,res)=>{
@@ -110,6 +130,9 @@ router.put('/:id',async(req,res)=>{
     }
     
 })
+
+
+// get active todo
 
 
 // Delete todo
