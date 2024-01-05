@@ -26,6 +26,15 @@ router.get('/',async(req,res)=>{
 
 })
 
+// instance static method
+
+router.get('/js',async(req,res)=>{
+    const data = await Todo.findByjs()
+    res.status(200).json({
+        data
+    })
+})
+
 // Post multiple todo
 router.post('/all',async (req,res)=>{
     try{

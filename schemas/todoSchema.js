@@ -24,6 +24,12 @@ todoSchema.methods= {
 },
 
 
+// static method
 
+todoSchema.statics={
+    findByjs :function(){
+        return this.find({title: /learn/i})
+    }
+}
 
 module.exports = todoSchema
