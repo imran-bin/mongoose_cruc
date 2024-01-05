@@ -37,7 +37,7 @@ router.get('/js',async(req,res)=>{
 // Query helper mthod use
 
 router.get('/language', async(req,res)=>{
-    const data = await Todo.find().byLnguage("learn")
+    const data = await Todo.find().byLnguage("express")
     res.status(200).json({
         data,
         message:"language"
