@@ -1,4 +1,5 @@
 const express = require("express")
+const checkLogin = require('../middlewares/checkLogin')
 const { default: mongoose } = require("mongoose")
 const todoSchema = require("../schemas/todoSchema")
 const  router  = express.Router()
@@ -9,10 +10,10 @@ const Todo = new mongoose.model("Todo",todoSchema)
 
 
 // Get all todos
-router.get('/',async(req,res)=>{
+router.get('/', checkLogin,async(req,res)=>{
 
     try{
-        const data=await Todo.find({status:'active'})
+        const data=await Todo.find( )
         res.status(200).json({
             result:data,
             message:"All data show in display"
