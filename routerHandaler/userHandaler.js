@@ -8,7 +8,22 @@ const User = new mongoose.model("User",userSchema)
 const jwt = require("jsonwebtoken")
 
 
+router.get("/all",async (req,res)=>{
+    try{
+        const user = await User.find().populate("todos")
+        res.status(200).json({
+            data:user,
+            mesage:"success"
+        })
 
+    }
+    catch(err){
+        res.status(500).json({
+            mesesage:"server side error"
+        })
+    }
+})
+   
 
 // sign up
 router.post('/signup',async(req,res)=>{
@@ -68,7 +83,10 @@ router.post('/login',async(req,res)=>{
         })
     }
 })
-     
+
+// get all user 
+
+  
 
 
 module.exports =router
